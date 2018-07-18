@@ -1,4 +1,4 @@
-# AcmeFlightsApi
+# Acme Flights Api
 Acme Flights API POC
 
 ## Problem definition
