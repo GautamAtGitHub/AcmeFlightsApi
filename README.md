@@ -15,6 +15,7 @@ Need to create a REST API to Check the flight availability : by giving start and
 2. Used in memory database to store the values.
 3. Implemented Swagger for testing. Sample JSON requests for each operation have been included on Swagger page. Please visit `http://<server>/swagger` to access swagger.
 4. Implemented HATEOAS guidelines to let the users know 'what to do next'.
+5. Proper Exception handling is implemented
 
 
 ## How to Use the API
