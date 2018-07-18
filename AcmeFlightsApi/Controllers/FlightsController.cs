@@ -10,10 +10,10 @@ namespace AcmeFlightsApi.Controllers
     [Route("api/Flights")]
     public class FlightsController : Controller
     {
-        private readonly APIContext _context;
-        public FlightsController(APIContext context)
+        private readonly IFlightsRepository _repository;
+        public FlightsController(IFlightsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
         // GET: api/Flights
         [HttpGet]
@@ -21,7 +21,7 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                return Ok(_context.GetAllFlights());
+                return Ok(_repository.GetAllFlights());
             }
             catch (Exception ex)
             {
@@ -34,7 +34,7 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                return Ok(_context.GetSchedules(flightId));
+                return Ok(_repository.GetSchedulesByFlight(flightId));
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                var scheduleList = _context.FlightAvailability(flightQuery);
+                var scheduleList = _repository.GetFlightSchedule(flightQuery);
                 if (scheduleList != null && scheduleList.Count > 0)
                 {
                     //MakeBooking
@@ -73,12 +73,12 @@ namespace AcmeFlightsApi.Controllers
         }
 
         // GET: api/Flights/5
-        [HttpGet("{id}", Name = "GetFlights")]
-        public IActionResult Get(int id)
+        [HttpGet("{flightid}", Name = "GetFlights")]
+        public IActionResult Get(int flightid)
         {
             try
             {
-                return Ok(_context.GetFlight(id));
+                return Ok(_repository.GetFlightById(flightid));
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                return Ok(_context.GetBooking(id));
+                return Ok(_repository.GetBookingById(id));
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace AcmeFlightsApi.Controllers
                 if (ModelState.IsValid)
                 {
                     bookingInfo.ScheduleId = ScheduleId;
-                    var bookingConfirmed = _context.Book(bookingInfo);
+                    var bookingConfirmed = _repository.AddBooking(bookingInfo);
                     if (bookingConfirmed)
                         return Created(new Uri("/flights/booking", UriKind.Relative), bookingInfo);
                     else return BadRequest("Booking not confirmed");

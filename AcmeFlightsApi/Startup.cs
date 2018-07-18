@@ -23,6 +23,7 @@ namespace AcmeFlightsApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<APIContext>(option => option.UseInMemoryDatabase("APIDB"));
+            services.AddScoped(typeof(IFlightsRepository), typeof(FlightsRepository));
             services.AddMvc();
             services.AddSwaggerGen(options =>
             {
