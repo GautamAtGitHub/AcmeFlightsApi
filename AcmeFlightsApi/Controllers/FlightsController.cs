@@ -21,7 +21,44 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllFlights());
+                var flights = _repository.GetAllFlights();
+                var link = new LinkHelper<List<Flights>>(flights);
+                for (int iIndex = 0; iIndex < flights.Count || (iIndex < flights.Count && iIndex < 10); iIndex++) // Restrict max 10 links
+                {
+                    link.Links.Add(new Link
+                    {
+                        Href = Url.Link("GetFlights", new { flights[iIndex].FlightId }),
+                        Rel = "GET-booking",
+                        method = "GET"
+                    });
+                }
+                return Ok(link);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ExceptionHelper.ProcessError(ex));
+            }
+        }
+
+        // GET: api/Flights/5
+        [HttpGet("{flightid}", Name = "GetFlights")]
+        public IActionResult Get(int flightid)
+        {
+            try
+            {
+                var flight = _repository.GetFlightById(flightid);
+                if (flight != null)
+                {
+                    var link = new LinkHelper<Flights>(flight);
+                    link.Links.Add(new Link
+                    {
+                        Href = Url.Link("Schedule", new { flight.FlightId }),
+                        Rel = "GET-schedule",
+                        method = "GET"
+                    });
+                    return Ok(link);
+                }
+                else return NotFound("No flight available");
             }
             catch (Exception ex)
             {
@@ -34,7 +71,23 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                return Ok(_repository.GetSchedulesByFlight(flightId));
+                var scheduleList = _repository.GetSchedulesByFlight(flightId);
+                if (scheduleList != null && scheduleList.Count > 0)
+                {
+                    //MakeBooking
+                    var link = new LinkHelper<List<FlightsSchedule>>(scheduleList);
+                    for (int iIndex = 0; iIndex < scheduleList.Count || (iIndex < scheduleList.Count && iIndex < 10); iIndex++) // Restrict max 10 links
+                    {
+                        link.Links.Add(new Link
+                        {
+                            Href = Url.Link("MakeBooking", new { scheduleList[iIndex].ScheduleId }),
+                            Rel = "post-booking",
+                            method = "POST"
+                        });
+                    }
+                    return Ok(link);
+                }
+                else return NotFound("No flight available");
             }
             catch (Exception ex)
             {
@@ -72,26 +125,20 @@ namespace AcmeFlightsApi.Controllers
 
         }
 
-        // GET: api/Flights/5
-        [HttpGet("{flightid}", Name = "GetFlights")]
-        public IActionResult Get(int flightid)
-        {
-            try
-            {
-                return Ok(_repository.GetFlightById(flightid));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ExceptionHelper.ProcessError(ex));
-            }
-        }
 
-        [HttpGet("Booking/{id}", Name = "GetBooking")]
-        public IActionResult GetBooking(int id)
+
+        [HttpGet("Booking/{bookingId}", Name = "GetBooking")]
+        public IActionResult GetBooking(int bookingId)
         {
             try
             {
-                return Ok(_repository.GetBookingById(id));
+                var booking = _repository.GetBookingById(bookingId);
+                if (booking != null)
+                {
+                    return Ok(booking);
+                }
+                else return NotFound("No booking available");
+
             }
             catch (Exception ex)
             {
@@ -109,7 +156,7 @@ namespace AcmeFlightsApi.Controllers
                 {
                     bookingInfo.ScheduleId = ScheduleId;
                     var bookingConfirmed = _repository.AddBooking(bookingInfo);
-                    if (bookingConfirmed)
+                    if (bookingConfirmed > 0)
                         return Created(new Uri("/flights/booking", UriKind.Relative), bookingInfo);
                     else return BadRequest("Booking not confirmed");
                 }

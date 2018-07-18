@@ -68,8 +68,8 @@ namespace AcmeFlightsApi.Data
         /// Perform Booking as per booking info
         /// </summary>
         /// <param name="bookingInfo">booking info</param>
-        /// <returns></returns>
-        public bool AddBooking(BookingInfo bookingInfo)
+        /// <returns>Return booking ID</returns>
+        public int AddBooking(BookingInfo bookingInfo)
         {
             var schedule = _context.FlightsScheduleItems.Where(x => x.ScheduleId == bookingInfo.ScheduleId).FirstOrDefault();
             if (schedule != null && schedule.AvailableSeats >= bookingInfo.NoOfPax)
@@ -78,9 +78,9 @@ namespace AcmeFlightsApi.Data
                 _context.FlightsScheduleItems.Update(schedule); // Update the number of seats available
                 _context.BookingInfoItems.Add(bookingInfo); // add the booking 
                 _context.SaveChanges(); // Save the booking.
-                return true; // Booking confirmed
+                return bookingInfo.BookingId; // Booking confirmed
             }
-            return false;
+            return 0;
         }
     }
 }

@@ -13,6 +13,6 @@ namespace AcmeFlightsApi.Data
         List<FlightsSchedule> GetSchedulesByFlight(int flightId);
         BookingInfo GetBookingById(int bookingId);
         List<FlightsSchedule> GetFlightSchedule(FlightQuery flightQuery);
-        bool AddBooking(BookingInfo bookingInfo);
+        int AddBooking(BookingInfo bookingInfo);
     }
 }
