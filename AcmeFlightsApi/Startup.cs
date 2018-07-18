@@ -61,7 +61,7 @@ namespace AcmeFlightsApi
                 context.FlightsItems.Add(new Model.Flights
                 {
                     FlightId = 101,
-                    AirlineName = "Quantas",
+                    AirlineName = "ACME",
                     TotalSeats = 6,
                     FromLocation = "Brisbane",
                     ToLocation = "Gold Coast",
@@ -74,10 +74,34 @@ namespace AcmeFlightsApi
                     ScheduleId = 1001,
                     AvailableSeats = 6,
                     DepartureDate = DateTime.Today,
-                    Price = "100 $",
+                    Price = "150 $",
                     FlightId = 101
                 });
-               
+                context.FlightsScheduleItems.Add(new Model.FlightsSchedule
+                {
+                    ScheduleId = 1002,
+                    AvailableSeats = 6,
+                    DepartureDate = DateTime.Today.AddDays(1),
+                    Price = "140 $",
+                    FlightId = 101
+                });
+                context.FlightsScheduleItems.Add(new Model.FlightsSchedule
+                {
+                    ScheduleId = 1003,
+                    AvailableSeats = 6,
+                    DepartureDate = DateTime.Today.AddDays(2),
+                    Price = "130 $",
+                    FlightId = 101
+                });
+                context.FlightsScheduleItems.Add(new Model.FlightsSchedule
+                {
+                    ScheduleId = 1004,
+                    AvailableSeats = 6,
+                    DepartureDate = DateTime.Today.AddDays(3),
+                    Price = "120 $",
+                    FlightId = 101
+                });
+
                 context.SaveChanges();
             }
         }

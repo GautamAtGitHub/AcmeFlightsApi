@@ -21,6 +21,11 @@ namespace AcmeFlightsApi.Data
             return this.FlightsItems.ToList();
         }
 
+        public List<FlightsSchedule> GetSchedules(int flightId)
+        {
+            return this.FlightsScheduleItems.Where(x => x.FlightId == flightId).ToList();
+        }
+
         public Flights GetFlight(int flightId)
         {
             return this.FlightsItems.Where(x => x.FlightId == flightId).FirstOrDefault();

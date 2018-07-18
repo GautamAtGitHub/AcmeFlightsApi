@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AcmeFlightsApi.Data
+namespace AcmeFlightsApi.Model
 {
     public class FlightQuery
     {

@@ -17,11 +17,24 @@ namespace AcmeFlightsApi.Controllers
         }
         // GET: api/Flights
         [HttpGet]
-        public ActionResult Get()
+        public IActionResult Get()
         {
             try
             {
                 return Ok(_context.GetAllFlights());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ExceptionHelper.ProcessError(ex));
+            }
+        }
+
+        [HttpGet("{flightId}/Schedule", Name = "Schedule")]
+        public IActionResult GetSchedule(int flightId)
+        {
+            try
+            {
+                return Ok(_context.GetSchedules(flightId));
             }
             catch (Exception ex)
             {
@@ -39,7 +52,7 @@ namespace AcmeFlightsApi.Controllers
                 {
                     //MakeBooking
                     var link = new LinkHelper<List<FlightsSchedule>>(scheduleList);
-                    for (int iIndex =  0; iIndex < scheduleList.Count || (iIndex < scheduleList.Count && iIndex < 10); iIndex++) // Restrict max 10 links
+                    for (int iIndex = 0; iIndex < scheduleList.Count || (iIndex < scheduleList.Count && iIndex < 10); iIndex++) // Restrict max 10 links
                     {
                         link.Links.Add(new Link
                         {
@@ -56,7 +69,7 @@ namespace AcmeFlightsApi.Controllers
             {
                 return BadRequest(ExceptionHelper.ProcessError(ex));
             }
-            
+
         }
 
         // GET: api/Flights/5
@@ -92,11 +105,15 @@ namespace AcmeFlightsApi.Controllers
         {
             try
             {
-                bookingInfo.ScheduleId = ScheduleId;
-                var bookingConfirmed = _context.Book(bookingInfo);
-                if (bookingConfirmed)
-                    return Created(new Uri("/flights/booking", UriKind.Relative), bookingInfo);
-                else return BadRequest("Booking not confirmed");
+                if (ModelState.IsValid)
+                {
+                    bookingInfo.ScheduleId = ScheduleId;
+                    var bookingConfirmed = _context.Book(bookingInfo);
+                    if (bookingConfirmed)
+                        return Created(new Uri("/flights/booking", UriKind.Relative), bookingInfo);
+                    else return BadRequest("Booking not confirmed");
+                }
+                else return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
