@@ -55,10 +55,14 @@ Need to create a REST API to Check the flight availability : by giving start and
  ![image](https://user-images.githubusercontent.com/34414643/42916541-203bb5c6-8b49-11e8-9508-c4da29829c8f.png)
 
  6. Check if booking is confirmed by giving the booking ID
+ <b>Curl</b> `curl -X GET "http://localhost:54808/api/Flights/Booking/1" -H "accept: application/json"`
+ 
  ![image](https://user-images.githubusercontent.com/34414643/42916587-661b2130-8b49-11e8-8427-121ab793c0b3.png)
  ![image](https://user-images.githubusercontent.com/34414643/42916610-79ed2bd6-8b49-11e8-867d-23de7387074d.png)
 
  7. After the booking you can check if the availability is decreased of not. The availability should be 3 seats after first booking.
+ <b>Curl</b> `curl -X GET "http://localhost:54808/api/Flights/Availability?StartDate=07%2F19%2F2018&EndDate=07%2F20%2F2018&NumberOfPax=3" -H "accept: application/json"`
+ 
  ![image](https://user-images.githubusercontent.com/34414643/42916649-af88fdb0-8b49-11e8-9929-ed51d455f190.png)
 
 
