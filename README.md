@@ -10,7 +10,7 @@ The flights all operate within the same time zone.  The same flights repeat ever
 Need to create a REST API to Check the flight availability : by giving start and end Date. No of pax.
 
 ## Highlights
-1. Implemented <b>RESTful Web API</b> for ACME flight. 
+1. Implemented <b>RESTful Web API</b> for ACME flight. The solution is designed using <b>.Net Core</b> 
 2. Used <b>`in-memory`</b> database to store the values and Flights information is already loaded into the system.
 3. Implemented <b>`HATEOAS`</b> guidelines to let the client know <b>'what to do next'.</b>
 4. <b>Repository pattern</b> is implemented to assist unit testing.
