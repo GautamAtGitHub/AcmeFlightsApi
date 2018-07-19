@@ -25,9 +25,41 @@ Need to create a REST API to Check the flight availability : by giving start and
 3. It is assumed that after each booking money is collected from payment getway.
 
 ## How to Use the API
-1. Check flights availability by providing StartDate, EndDate and No of PAX.
-2. If flight is available, then send next request to book the flight with available Schedule ID.
-3. Check if booking is confirmed by giving the booking ID
-4. After the booking now you can check if the availability is decreased of not.
+1. Download, build and run the AcmeFlightsAPI solution. Then navigate to <b>`http://<server>/swagger`</b>. This will open swagger test page as below. 
+ 
+ ![image](https://user-images.githubusercontent.com/34414643/42915797-5b08df20-8b45-11e8-88c1-be72f95ba526.png)
+
+2. To check flights availability. 
+  - click on `/api/Flights/Availability` from swagger UI and press `Try it out`. 
+  - Provide <b>StartDate, EndDate and No of PAX</b>. 
+  - You can use start date as today and end date as tomorrow and No of Pax upto 6. 
+  - Press Execute.
+  
+<b>Curl - </b> 
+`curl -X GET "http://localhost:54808/api/Flights/Availability?StartDate=07%2F19%2F2018&EndDate=07%2F20%2F2018&NumberOfPax=3" -H "accept: application/json"`
+ 
+ ![image](https://user-images.githubusercontent.com/34414643/42915994-3defdba4-8b46-11e8-9d70-a8d77db5722f.png)
+ 
+3. You will receive following response, which includes Schedule object with id `1001` as well as flight booking API link to book the flight.
+ 
+ ![image](https://user-images.githubusercontent.com/34414643/42916058-a8b5eb0e-8b46-11e8-9f04-21186c485f8a.png)
+
+4. If flight schedule is available, then send next request to book the flight with available Schedule ID, Name and No of Pax as below.
+
+<b>Curl - </b> 
+`curl -X POST "http://localhost:54808/api/Flights/Booking/1001" -H "accept: application/json" -H "Content-Type: application/json-patch+json" -d "{ \"bookingId\": 0, \"name\": \"Gautam\", \"noOfPax\": 3, \"bookingDate\": \"2018-07-19T01:40:39.085Z\", \"scheduleId\": 1001}"`
+
+ ![image](https://user-images.githubusercontent.com/34414643/42916270-b6db9336-8b47-11e8-85ba-68edcbb4bba0.png)
+ 
+ 5. As per following response, booking is confirmed with booking id 1
+ ![image](https://user-images.githubusercontent.com/34414643/42916541-203bb5c6-8b49-11e8-9508-c4da29829c8f.png)
+
+ 6. Check if booking is confirmed by giving the booking ID
+ ![image](https://user-images.githubusercontent.com/34414643/42916587-661b2130-8b49-11e8-8427-121ab793c0b3.png)
+ ![image](https://user-images.githubusercontent.com/34414643/42916610-79ed2bd6-8b49-11e8-867d-23de7387074d.png)
+
+ 7. After the booking you can check if the availability is decreased of not. The availability should be 3 seats after first booking.
+ ![image](https://user-images.githubusercontent.com/34414643/42916649-af88fdb0-8b49-11e8-9929-ed51d455f190.png)
+
 
 
