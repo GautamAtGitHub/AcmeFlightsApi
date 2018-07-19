@@ -65,5 +65,10 @@ Need to create a REST API to Check the flight availability : by giving start and
  
  ![image](https://user-images.githubusercontent.com/34414643/42916649-af88fdb0-8b49-11e8-9929-ed51d455f190.png)
 
+## Unit Test Results.
+
+Following is the unit test results. All unit test have passed. We can add more advanced unit tests to this solution given more time.
+
+![image](https://user-images.githubusercontent.com/34414643/42916851-8d087116-8b4a-11e8-9fa2-f70daf9717e5.png)
 
 
