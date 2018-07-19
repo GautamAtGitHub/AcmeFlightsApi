@@ -52,6 +52,7 @@ Need to create a REST API to Check the flight availability : by giving start and
  ![image](https://user-images.githubusercontent.com/34414643/42916270-b6db9336-8b47-11e8-85ba-68edcbb4bba0.png)
  
  5. As per following response, booking is confirmed with booking id 1
+ 
  ![image](https://user-images.githubusercontent.com/34414643/42916541-203bb5c6-8b49-11e8-9508-c4da29829c8f.png)
 
  6. Check if booking is confirmed by giving the booking ID 1
